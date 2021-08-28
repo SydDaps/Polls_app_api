@@ -3,6 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :organizer, only: [:create]
       resource :token, only: [:create]
+
+      resources :polls, only: [:create]
+      
     end
+
+    
   end
 end

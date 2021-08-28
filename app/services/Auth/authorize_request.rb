@@ -23,7 +23,7 @@ module Auth
         end
 
         def http_auth_header
-            if @headers.present?
+            if @headers['HTTP_AUTHORIZATION'].present?
                 return @headers['HTTP_AUTHORIZATION'].split(' ').last
             end
 

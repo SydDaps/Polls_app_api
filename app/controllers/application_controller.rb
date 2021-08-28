@@ -3,6 +3,6 @@ class ApplicationController < ActionController::API
     include ErrorHandler
 
     def authenticate_request
-        @current_user = Auth::AuthorizeRequest.call(request.headers)
+        @current_organizer = Auth::AuthorizeRequest.call(request.headers)
     end
 end

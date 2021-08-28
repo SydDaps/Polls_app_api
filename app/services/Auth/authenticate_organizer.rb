@@ -8,7 +8,7 @@ module Auth
         def call
             if organizer
                 {
-                    token: JWT::JsonWebToken.encode({organizer: organizer.id}),
+                    token: JWT::JsonWebToken.encode({organizer_id: organizer.id}),
                     organizer: organizer
                 }
                 
