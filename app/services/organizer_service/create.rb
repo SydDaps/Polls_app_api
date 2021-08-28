@@ -5,6 +5,7 @@ module OrganizerService
             @email = params[:email]
             @password = params[:password]
             @password_confirmation = params[:password_confirmation]
+            
         end
 
         def call
