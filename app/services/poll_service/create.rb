@@ -2,9 +2,9 @@ module PollService
     class Create < BaseService
         def initialize(poll_params)
           @organizer = poll_params[:organizer]
-          @poll_title = poll_params[:poll_title]
-          @poll_start_at = poll_params[:poll_start_at]
-          @poll_end_at = poll_params[:poll_end_at]
+          @poll_title = poll_params[:title]
+          @poll_start_at = poll_params[:start_at]
+          @poll_end_at = poll_params[:end_at]
         end
 
         def call
