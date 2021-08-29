@@ -25,6 +25,7 @@ module PollsAppApi
     config.load_defaults 6.1
     config.autoload_paths += %W(
       #{ Rails.root.join('lib') }
+      #{ Rails.root.join('app', 'serializers') }
       
     )
 
