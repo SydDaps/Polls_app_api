@@ -5,16 +5,16 @@ module PollService
           @title = poll_params[:title]
           @description = poll_params[:description]
           @start_at = poll_params[:start_at]
-          @pnd_at = poll_params[:end_at]
+          @end_at = poll_params[:end_at]
         end
 
         def call
             
             poll = @organizer.polls.create(
-                title: @poll_title,
+                title: @title,
                 description: @description,
-                start_at: @poll_start_at,
-                end_at: @poll_end_at   
+                start_at: @start_at,
+                end_at: @end_at   
             )
         end
 
