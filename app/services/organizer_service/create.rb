@@ -24,7 +24,8 @@ module OrganizerService
                 template_name: "welcome",
             }
 
-            Mailer::Sender.send( mail_params ) 
+            Mailer::Sender.send( mail_params )
+            
 
             {
                 token: JWT::JsonWebToken.encode({organizer_id: organizer.id}),
