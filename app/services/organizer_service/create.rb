@@ -5,7 +5,6 @@ module OrganizerService
             @email = params[:email]
             @password = params[:password]
             @password_confirmation = params[:password_confirmation]
-            
         end
 
         def call
@@ -25,7 +24,7 @@ module OrganizerService
             }
 
             Mailer::Sender.send( mail_params )
-            
+
 
             {
                 token: JWT::JsonWebToken.encode({organizer_id: organizer.id}),
