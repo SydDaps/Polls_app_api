@@ -4,10 +4,11 @@ Rails.application.routes.draw do
       resource :organizer, only: [:create]
       resource :token, only: [:create]
 
-      resources :polls, only: [:create, :index]
+      resources :polls, only: [:create, :index, :show]
 
       resources :polls do
         resources :sections, only: [:create]
+        resources :voters, only: [:create]
       end
       
     end

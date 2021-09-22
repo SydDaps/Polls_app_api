@@ -31,6 +31,7 @@ gem 'jwt', '~> 1.5', '>= 1.5.4'
 gem 'rack-cors'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 gem 'foreman', '~> 0.87.2'
+gem 'sendgrid-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

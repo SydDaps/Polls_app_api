@@ -1,3 +1,4 @@
 POLLS_APP_DB_USERNAME: "postgres"
 POLLS_APP_DB_PASSWORD: "weWove2131"
 POLLS_API_SECRETE: "hdfjhgfghvfofngb"
+API_KEY: "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"
