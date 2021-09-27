@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_12_043802) do
+ActiveRecord::Schema.define(version: 2021_09_27_142905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "options", force: :cascade do |t|
-    t.bigint "section_id"
+  create_table "options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "section_id"
     t.string "description"
     t.string "image_url"
     t.datetime "created_at", precision: 6, null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_09_12_043802) do
     t.index ["section_id"], name: "index_options_on_section_id"
   end
 
-  create_table "organizers", force: :cascade do |t|
+  create_table "organizers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "password_digest"
@@ -32,30 +32,31 @@ ActiveRecord::Schema.define(version: 2021_09_12_043802) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "polls", force: :cascade do |t|
+  create_table "polls", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "description"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.bigint "organizer_id"
+    t.uuid "organizer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["organizer_id"], name: "index_polls_on_organizer_id"
   end
 
-  create_table "sections", force: :cascade do |t|
-    t.bigint "poll_id"
+  create_table "sections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "poll_id"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["poll_id"], name: "index_sections_on_poll_id"
   end
 
-  create_table "voters", force: :cascade do |t|
-    t.bigint "poll_id", null: false
+  create_table "voters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "poll_id", null: false
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "index_number"
     t.index ["poll_id"], name: "index_voters_on_poll_id"
   end
 
