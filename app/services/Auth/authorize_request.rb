@@ -11,9 +11,16 @@ module Auth
         private
 
         def organizer
-            @organizer = Organizer.find(decode_auth_token[:organizer_id]) if decode_auth_token
-            raise Exceptions::UnauthorizedOperation.message("User Not found") unless @organizer
-            @organizer
+            if decode_auth_token
+                if decode_auth_token[:organizer_id]
+                    @user = Organizer.find(decode_auth_token[:organizer_id])
+                elsif decode_auth_token[:voter_id]
+                    @user = Voter.find(decode_auth_token[:voter_id])
+                end
+            end
+            raise Exceptions::UnauthorizedOperation.message("User Not found") unless @user
+
+            @user
         end
 
         def decode_auth_token

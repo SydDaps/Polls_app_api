@@ -4,13 +4,13 @@ class Api::V1::PollsController < ApplicationController
         render json: {
             success: true,
             code: 200,
-            data: PollSerializer.new( @current_organizer.polls ).serialize
+            data: PollSerializer.new( @current_user.polls ).serialize
         }
 
     end
 
     def create
-        response = PollService::Create.call(params.merge(organizer: @current_organizer))
+        response = PollService::Create.call(params.merge(organizer: @current_user))
 
         render json: {
             success: true,

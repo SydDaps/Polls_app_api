@@ -7,8 +7,11 @@ Rails.application.routes.draw do
       resources :polls, only: [:create, :index, :show]
 
       resources :polls do
-        resources :sections, only: [:create]
-        resources :voters, only: [:create]
+        resources :sections, only: [:create, :index]
+        resources :voters, only: [:create, :index]
+        post 'voter/login', to: 'voters#login'
+
+        resources :votes, only: [:create]
       end
       
     end

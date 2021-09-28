@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_27_142905) do
+ActiveRecord::Schema.define(version: 2021_09_28_015208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,11 +57,29 @@ ActiveRecord::Schema.define(version: 2021_09_27_142905) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "index_number"
+    t.boolean "voted"
     t.index ["poll_id"], name: "index_voters_on_poll_id"
+  end
+
+  create_table "votes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "poll_id"
+    t.uuid "option_id"
+    t.uuid "section_id"
+    t.uuid "voter_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["option_id"], name: "index_votes_on_option_id"
+    t.index ["poll_id"], name: "index_votes_on_poll_id"
+    t.index ["section_id"], name: "index_votes_on_section_id"
+    t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
   add_foreign_key "options", "sections"
   add_foreign_key "polls", "organizers"
   add_foreign_key "sections", "polls"
   add_foreign_key "voters", "polls"
+  add_foreign_key "votes", "options"
+  add_foreign_key "votes", "polls"
+  add_foreign_key "votes", "sections"
+  add_foreign_key "votes", "voters"
 end

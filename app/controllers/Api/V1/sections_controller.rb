@@ -15,6 +15,17 @@ class Api::V1::SectionsController < ApplicationController
 
     end
 
+    def index
+
+        render json: {
+            success: true,
+            code: 200,
+            data: SectionSerializer.new( @current_poll.sections.all ).serialize
+        }
+
+
+    end
+
 
 
     private
@@ -23,3 +34,5 @@ class Api::V1::SectionsController < ApplicationController
         @current_poll = Poll.find(params[:poll_id])
     end
 end
+
+
