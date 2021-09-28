@@ -26,9 +26,7 @@ class Api::V1::VotersController < ApplicationController
     render json: {
       success: true,
       code: 200,
-      data: {
-        voters: VoterSerializer.new( current_poll.voters.all ).serialize
-      }
+      data: VoterSerializer.new( current_poll.voters.all ).serialize
     }
   end
 
