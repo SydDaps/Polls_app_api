@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         resources :sections, only: [:create, :index]
         resources :voters, only: [:create, :index]
         post 'voter/login', to: 'voters#login'
+        post 'voter/publish', to: 'voters#publish'
 
         resources :votes, only: [:create]
       end

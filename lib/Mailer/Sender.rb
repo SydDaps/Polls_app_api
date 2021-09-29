@@ -1,11 +1,11 @@
 module Mailer
     class Sender
-        def self.template(name)
+        def self.template(name, data = nil)
             case name
             when "welcome"
                 "this is the welcome layout"
-            when "test"
-                "This is the test template"
+            when "publish"
+                "poll_id: #{ data[:poll_id] }\n pass_key: #{ data[:pass_key] }"
             end
         end
 
@@ -15,7 +15,7 @@ module Mailer
             subject = params[:subject]
             content = SendGrid::Content.new(
                 type: 'text/html', 
-                value: template(params[:template_name])
+                value: template(params[:template_name], params[:template_data])
             )
             mail = SendGrid::Mail.new(from, subject, to, content)
 
