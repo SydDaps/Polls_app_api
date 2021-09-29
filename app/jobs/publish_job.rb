@@ -4,7 +4,7 @@ class PublishJob < ApplicationJob
   def perform(params)
     params[:voters].each do |voter|
       pass_key = SecureRandom.hex(4)
-      voter.update(
+      voter.update!(
         pass_key: BCrypt::Password.create(pass_key)
       )
 

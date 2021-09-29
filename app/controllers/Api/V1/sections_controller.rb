@@ -22,8 +22,6 @@ class Api::V1::SectionsController < ApplicationController
             code: 200,
             data: SectionSerializer.new( @current_poll.sections.all ).serialize
         }
-
-
     end
 
 
