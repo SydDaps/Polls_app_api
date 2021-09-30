@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :polls, only: [:create, :index, :show]
 
       resources :polls do
+        get '/analytics', to: 'polls#analytics'
         resources :sections, only: [:create, :index]
         resources :voters, only: [:create, :index]
         post 'voter/login', to: 'voters#login'

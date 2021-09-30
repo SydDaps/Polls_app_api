@@ -1,4 +1,4 @@
-class PollSerializer < BaseSerializer
+class AnalyticSerializer < BaseSerializer
     def serialize_single(resource, _)
         data = {
             id: resource.id,
@@ -10,15 +10,13 @@ class PollSerializer < BaseSerializer
         }
 
         if resource.status == "Ended"
-            data = data.merge({ 
-                total_voters: resource.total_voters,
-                total_votes: resource.total_votes
-            })
+            data[:total_voters] = resource.total_voters
+
+            data[:sections].each_with_index do |section, i|
+                data[:sections][i][:totaL_votes] = section.total_votes
+            end
         end
-
-        data
     end
-
 
 
 end
