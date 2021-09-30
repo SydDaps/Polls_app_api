@@ -1,4 +1,5 @@
 class Api::V1::PollsController < ApplicationController
+    skip_before_action :authenticate_request, :only => [:analytics]
 
     def index
         
