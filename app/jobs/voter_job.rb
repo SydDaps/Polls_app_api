@@ -5,10 +5,12 @@ class VoterJob < ApplicationJob
     puts params.class
     params[:voters].each do |data|
 
-      user_found = Voter.find_by_email(data[:email])
-      index_found = Voter.find_by_index_number(data[:index_number])
+      user_found = params[:poll].voters.find_by_email(data[:email])
+      index_found = params[:poll].voters.find_by_index_number(data[:index_number])
 
       next if user_found || index_found
+
+      next unless data[:email] || data[:index_number]
 
       params[:poll].voters.create({
 

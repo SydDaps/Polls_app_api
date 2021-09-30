@@ -37,6 +37,11 @@ module PollsAppApi
         g.orm :active_record, foreign_key_type: :uuid
       end
     end
+
+
+    config.action_cable.disable_request_forgery_protection = true
+    config.action_cable.url = "/cable"
+
     
     # Configuration for the application, engines, and railties goes here.
     #

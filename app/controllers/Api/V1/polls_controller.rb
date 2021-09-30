@@ -1,6 +1,7 @@
 class Api::V1::PollsController < ApplicationController
 
     def index
+        
         render json: {
             success: true,
             code: 200,
@@ -15,7 +16,7 @@ class Api::V1::PollsController < ApplicationController
         render json: {
             success: true,
             code: 200,
-            data: PollSerializer.new( response ).serialize
+            data: PollSerializer.new( @current_user.polls ).serialize
         }
     end
 
@@ -27,5 +28,9 @@ class Api::V1::PollsController < ApplicationController
             code: 200,
             data: PollSerializer.new( response ).serialize
         }
+    end
+
+    def analytics
+
     end
 end
