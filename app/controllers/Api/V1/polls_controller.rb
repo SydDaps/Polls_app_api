@@ -41,7 +41,7 @@ class Api::V1::PollsController < ApplicationController
             data[:message] = "Poll Ended"
             data[:analytics] = PollSerializer.new( current_poll  ).serialize
         else
-            data[:message] = "Poll results available when poll ends"
+            data[:message] = "Poll results will be available when poll ends"
         end
 
         render json: {

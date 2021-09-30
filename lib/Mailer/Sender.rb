@@ -5,7 +5,7 @@ module Mailer
             when "welcome"
                 "this is the welcome layout"
             when "publish"
-                "poll_id: #{ data[:poll_id] }\n pass_key: #{ data[:pass_key] }"
+                "poll_link: https://epic-polls.netlify.app/vote/#{ data[:poll_id] }\n \npass_key: #{ data[:pass_key] }"
             end
         end
 
