@@ -7,7 +7,11 @@ class OptionSerializer < BaseSerializer
         }
 
         if resource.section.poll.status == "Ended"
-           data = data.merge({ total_votes: resource.total_votes })
+            data = data.merge({ 
+                votes: resource.total_votes,
+                votes_percentage: ((resource.total_votes.to_f / resource.section.poll.total_votes) * 100.0).round(2)
+            })
+
         end
 
         data

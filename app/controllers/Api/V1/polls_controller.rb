@@ -34,7 +34,7 @@ class Api::V1::PollsController < ApplicationController
     def analytics
         data = {
             message: "",
-            analytics: ""
+            analytics: {}
         }
 
         if current_poll.status == "Ended"
