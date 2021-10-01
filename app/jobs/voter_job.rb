@@ -12,12 +12,20 @@ class VoterJob < ApplicationJob
 
       next unless data[:email] || data[:index_number]
 
-      params[:poll].voters.create({
+      voter = params[:poll].voters.create({
 
         email: data[:email],
         index_number: data[:index_number]
 
       })
+
+      ActionCable.server.broadcast("admin_#{current_user.id}",
+        {
+            data: {
+              voters: voter
+            }
+        }
+      )
     end
   end
 end
