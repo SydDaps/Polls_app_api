@@ -19,7 +19,7 @@ class VoterJob < ApplicationJob
 
       })
 
-      ActionCable.server.broadcast("admin_#{current_user.id}",
+      ActionCable.server.broadcast("admin_#{params[:user].id}",
         {
             data: {
               voters: voter

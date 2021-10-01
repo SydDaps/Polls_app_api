@@ -9,7 +9,8 @@ class Api::V1::VotersController < ApplicationController
     VoterJob.perform_later(
       {
         voters: voters,
-        poll: current_poll
+        poll: current_poll,
+        user: @current_user
       }
     )
 
