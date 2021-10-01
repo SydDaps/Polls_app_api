@@ -73,8 +73,5 @@ class Api::V1::VotersController < ApplicationController
       code: 200,
       message: "Poll is being Published to voters"
     }
-
-
-
   end
 end

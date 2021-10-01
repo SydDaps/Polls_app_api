@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
     end
 
     def current_poll
+        return Poll.find(params[:id]) if params[:id]
         Poll.find(params[:poll_id])
     end
 end

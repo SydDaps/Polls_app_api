@@ -16,7 +16,7 @@ Rails.application.routes.draw do
         post 'voter/login', to: 'voters#login'
         post 'voter/publish', to: 'voters#publish'
 
-        resources :votes, only: [:create]
+        resources :votes, only: [:create, :show]
       end
       
     end

@@ -22,13 +22,33 @@ class Api::V1::PollsController < ApplicationController
     end
 
     def show
-        response = Poll.find(params[:id])
+        if @current_user.class.name == "Voter"
+            data = { }
+    
 
-        render json: {
-            success: true,
-            code: 200,
-            data: PollSerializer.new( response ).serialize
-        }
+            if current_poll.status == "Not Started"
+                data[:message] = "Poll starts at #{current_poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
+            elsif current_poll.status.downcase == "ended"
+                data[:message] = "Poll Ended"
+                data[:analytics] = PollSerializer.new( current_poll  ).serialize
+            elsif @current_user.voted
+                data[:message] = "User already voted\n Poll results will be available at #{current_poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
+            elsif current_poll.status == "In Progress"
+                data = PollSerializer.new( current_poll  ).serialize
+            end
+    
+            render json: {
+                success: true,
+                code: 200,
+                data: data
+            }
+        else
+            render json: {
+                success: true,
+                code: 200,
+                data: PollSerializer.new( current_poll ).serialize
+            }
+        end
     end
 
     def analytics
