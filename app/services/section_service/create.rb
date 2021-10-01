@@ -12,7 +12,8 @@ module SectionService
                 )
                 
                 section[:options].each do |option|
-                    new_option = new_section.options.create(
+                    
+                    new_option = new_section.options.create!(
                         description: option[:description],
                         image_url: option[:image_url]
                     )

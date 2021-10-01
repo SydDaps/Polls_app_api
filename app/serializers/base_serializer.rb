@@ -5,11 +5,22 @@ class BaseSerializer
     end
 
     def serialize(options = {})
+    
+        
+        data = {}
         if @is_collection
-            serialize_collection(@resource, options)
+            data = serialize_collection(@resource, options)
         else
-            serialize_single(@resource, options)
+            data = serialize_single(@resource, options)
         end
+        
+        
+
+        unless options.empty?
+            data = data.select { |key, i| options[:keys].include? key }
+        end
+        
+        data
     end
 
     private
