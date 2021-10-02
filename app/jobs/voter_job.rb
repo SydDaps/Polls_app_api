@@ -22,7 +22,8 @@ class VoterJob < ApplicationJob
       ActionCable.server.broadcast("admin_#{params[:user].id}",
         {
             data: {
-              voters: voter
+              voters: voter,
+              analytics: PollSerializer.new( params[:poll]  ).serialize
             }
         }
       )
