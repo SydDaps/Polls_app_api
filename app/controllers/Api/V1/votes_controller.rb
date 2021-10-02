@@ -10,7 +10,10 @@ class Api::V1::VotesController < ApplicationController
         ActionCable.server.broadcast("admin_#{@current_user.poll.organizer.id}",
         {
             data: {
-                analytics: PollSerializer.new( current_poll  ).serialize
+                analytics: {
+                    message: "Poll results will be available on #{params[:poll].end_at.strftime("%B %d, %Y %I:%M%P")}",
+                    analytics: PollSerializer.new( params[:poll]  ).serialize
+                }
             }
         })
 
