@@ -7,7 +7,7 @@ class SectionSerializer < BaseSerializer
         }
 
         if resource.poll.status == "Ended"
-            data = data[:options].sort { |a, b| b[:votes] <=> a[:votes] }
+            data[:options] = data[:options].sort { |a, b| b[:votes] <=> a[:votes] }
         end
 
         data
