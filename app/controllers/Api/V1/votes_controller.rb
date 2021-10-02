@@ -7,7 +7,7 @@ class Api::V1::VotesController < ApplicationController
             voter: @current_user
         }))
         
-        ActionCable.server.broadcast("admin_#{@current_user.id}",
+        ActionCable.server.broadcast("admin_#{@current_user.poll.organizer.id}",
         {
             data: {
                 analytics: PollSerializer.new( current_poll  ).serialize
@@ -20,6 +20,6 @@ class Api::V1::VotesController < ApplicationController
             data: {
                 message: "voted Successfully"
             }
-        }
+        } 
     end
 end
