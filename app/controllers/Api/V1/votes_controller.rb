@@ -21,6 +21,5 @@ class Api::V1::VotesController < ApplicationController
                 message: "voted Successfully"
             }
         }
-
     end
 end

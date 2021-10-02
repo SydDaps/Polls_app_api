@@ -61,7 +61,7 @@ class Api::V1::PollsController < ApplicationController
         if current_poll.status == "Ended"
             data[:message] = "Poll Ended"
         else
-            data[:message] = "Poll results will be available when poll ends"
+            data[:message] = "Poll results will be available at #{current_poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
         end
 
         data[:analytics] = PollSerializer.new( current_poll  ).serialize

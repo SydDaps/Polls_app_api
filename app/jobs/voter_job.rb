@@ -23,7 +23,10 @@ class VoterJob < ApplicationJob
         {
             data: {
               voters: voter,
-              analytics: PollSerializer.new( params[:poll]  ).serialize
+              analytics: {
+                message: "Poll results will be available at #{params[:poll].end_at.strftime("%B %d, %Y %I:%M%P")}",
+                analytics: PollSerializer.new( params[:poll]  ).serialize
+              }
             }
         }
       )
