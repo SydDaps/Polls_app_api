@@ -9,11 +9,10 @@ module VoteService
 
 
         def call
-            poll_started = Time.now < @poll.start_at
-            poll_ended = Time.now > @poll.end_at
+           
 
-            raise Exceptions::NotUniqueRecord.message("Poll starts at #{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}") if poll_started
-            raise Exceptions::NotUniqueRecord.message("Poll ended") if poll_ended
+            raise Exceptions::NotUniqueRecord.message("Poll starts at #{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}") if @poll.status == "Not Started"
+            raise Exceptions::NotUniqueRecord.message("Poll ended") if @poll.status == "Ended"
 
             raise Exceptions::NotUniqueRecord.message("Voted already") if @voter.voted           
 
