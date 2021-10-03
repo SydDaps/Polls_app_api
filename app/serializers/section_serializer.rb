@@ -15,6 +15,7 @@ class SectionSerializer < BaseSerializer
         end
 
         
+        
         data
     end
 
