@@ -11,11 +11,17 @@ class PublishJob < ApplicationJob
       
       mail_params = {
         to: voter.email,
-        subject: "#{ params[:poll].title } voting link",
-        template_name: "publish",
+        template_id: "d-16b4b7d6a5f94bfa992b41a43a5cdcc7",
         template_data: {
-          poll_id: params[:poll].id,
-          pass_key: pass_key
+          
+          pass_key: pass_key,
+          subject: "#{ params[:poll].title } voting link",
+          index_number: voter.index_number,
+          organization_name: params[:poll].organizer.name,
+          poll_title: params[:poll].title,
+          voter_link: "https://epic-polls.netlify.app/vote/#{params[:poll].id}",
+          start_at: "#{params[:poll].start_at.strftime("%B %d, %Y %I:%M%P")}",
+          end_at: "#{params[:poll].start_at.strftime("%B %d, %Y %I:%M%P")}"
         }
       }
 
