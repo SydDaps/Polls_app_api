@@ -12,7 +12,7 @@ class Api::V1::OrganizersController < ApplicationController
           code: 200,
           data: {
             token: response[:token],
-            user: response[:organizer]
+            Organizer: response[:organizer]
           }
         }
   end
