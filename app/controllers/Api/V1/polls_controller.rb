@@ -27,7 +27,7 @@ class Api::V1::PollsController < ApplicationController
     
 
             if current_poll.status == "Not Started"
-                data[:message] = "Poll starts at #{current_poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
+                data[:message] = "Poll starts on #{current_poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
                 data[:overview] = PollSerializer.new( current_poll  ).serialize({keys: [:id, :start_at, :end_at, :status]})
             elsif current_poll.status.downcase == "ended"
                 data[:message] = "Poll Ended"
@@ -60,6 +60,8 @@ class Api::V1::PollsController < ApplicationController
 
         if current_poll.status == "Ended"
             data[:message] = "Poll Ended"
+        elsif current_poll.status == "Not Started"
+            data[:message] = "Poll starts on #{current_poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
         else
             data[:message] = "Poll results will be available on #{current_poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
         end

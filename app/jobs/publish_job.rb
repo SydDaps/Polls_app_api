@@ -15,7 +15,7 @@ class PublishJob < ApplicationJob
         template_data: {
           
           pass_key: pass_key,
-          subject: "#{ params[:poll].title } voting link",
+          subject: "#{params[:poll].title} poll",
           index_number: voter.index_number,
           organization_name: params[:poll].organizer.name,
           poll_title: params[:poll].title,

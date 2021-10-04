@@ -17,14 +17,6 @@ module OrganizerService
                 email: @email
             )
 
-            mail_params = {
-                to: organizer.email,
-                subject: "Welcome, #{ organizer.name }",
-                template_name: "welcome",
-            }
-
-            Mailer::Sender.send( mail_params )
-
 
             {
                 token: JWT::JsonWebToken.encode({organizer_id: organizer.id}),
