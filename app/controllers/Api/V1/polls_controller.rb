@@ -33,7 +33,7 @@ class Api::V1::PollsController < ApplicationController
                 data[:message] = "Poll Ended"
                 data[:analytics] = PollSerializer.new( current_poll  ).serialize
             elsif @current_user.voted
-                data[:message] = "you have already voted\n Poll results will be available on #{current_poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
+                data[:message] = "you have already voted \n Poll results will be available on #{current_poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
             elsif current_poll.status == "In Progress"
                 data[:poll] = PollSerializer.new( current_poll  ).serialize
             end
