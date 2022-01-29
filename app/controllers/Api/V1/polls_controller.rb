@@ -2,7 +2,7 @@ class Api::V1::PollsController < ApplicationController
     skip_before_action :authenticate_request, :only => [:analytics]
 
     def index
-        
+
         render json: {
             success: true,
             code: 200,
@@ -24,7 +24,7 @@ class Api::V1::PollsController < ApplicationController
     def show
         if @current_user.class.name == "Voter"
             data = { }
-    
+
 
             if current_poll.status == "Not Started"
                 data[:message] = "Poll starts on #{current_poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
@@ -37,7 +37,7 @@ class Api::V1::PollsController < ApplicationController
             elsif current_poll.status == "In Progress"
                 data[:poll] = PollSerializer.new( current_poll  ).serialize
             end
-    
+
             render json: {
                 success: true,
                 code: 200,

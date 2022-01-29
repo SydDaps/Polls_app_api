@@ -22,4 +22,9 @@ class Poll < ApplicationRecord
             "In Progress"
         end
     end
+
+    module PublishedStatus
+      PUBLISHED = 'published'
+      PUBLISHING = 'publishing'
+    end
 end

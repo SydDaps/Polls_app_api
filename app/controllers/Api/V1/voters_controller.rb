@@ -35,7 +35,7 @@ class Api::V1::VotersController < ApplicationController
     voter = current_poll.voters.find_by_index_number(params[:index_number])
 
     raise Exceptions::NotUniqueRecord.message("The index number #{params[:index_number]} is not registered with this poll.") unless voter
-    
+
     pass_hash = BCrypt::Password.new(voter.pass_key)
 
     unless pass_hash == params[:pass_key]
@@ -58,21 +58,28 @@ class Api::V1::VotersController < ApplicationController
   end
 
   def publish
-    if params[:voter_id]
-      voters = [current_poll.voters.find(params[:voter_id])]
+    if current_poll.publish_status == Poll::PublishedStatus::PUBLISHING
+      message = "Publishing to voters. Please try again later."
     else
-      voters = current_poll.voters.all.where(pass_key: nil)
+      if params[:voter_id]
+        voters = [current_poll.voters.find(params[:voter_id])]
+      else
+        voters = current_poll.voters.all.where(pass_key: nil)
+      end
+
+      PublishJob.perform_later({
+      voters: voters,
+      poll: current_poll
+      })
+
     end
 
-    PublishJob.perform_now({
-     voters: voters,
-     poll: current_poll 
-    })
-
+    is_published = true if current_poll.publish_status == Poll::PublishedStatus::PUBLISHED
     render json: {
       success: true,
       code: 200,
-      message: "Poll is being Published to voters"
+      message: message || "Poll is being published to voters",
+      is_published: is_published || false
     }
   end
 end

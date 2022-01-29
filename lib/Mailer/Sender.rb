@@ -19,7 +19,7 @@ module Mailer
             # to = SendGrid::Email.new(email: params[:to])
             # subject = params[:subject]
             # content = SendGrid::Content.new(
-            #     type: 'text/html', 
+            #     type: 'text/html',
             #     value: template(params[:template_name], params[:template_data])
             # )
             # mail = SendGrid::Mail.new(from, subject, to, content)
@@ -36,7 +36,7 @@ module Mailer
                 ],
                 from: {
                   email: "mailer@timetablr.xyz",
-                  name: "African Union Hostel Polls App"
+                  name: "Epic Polls App"
                 },
                 template_id: "d-16b4b7d6a5f94bfa992b41a43a5cdcc7"
               }
@@ -45,6 +45,6 @@ module Mailer
             status = sg.client.mail._('send').post(request_body: data.to_json)
         end
 
-        
+
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_28_153728) do
+ActiveRecord::Schema.define(version: 2022_01_28_222618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2021_09_28_153728) do
     t.uuid "organizer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "publish_status"
     t.index ["organizer_id"], name: "index_polls_on_organizer_id"
   end
 
