@@ -5,7 +5,6 @@ class PublishJob < ApplicationJob
 
     params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHING)
 
-    sleep(400)
     params[:voters].each do |voter|
       pass_key = SecureRandom.hex(4)
       voter.update!(
@@ -31,5 +30,6 @@ class PublishJob < ApplicationJob
       Mailer::Sender.send( mail_params )
     end
 
-    params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHED)  end
+    params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHED)
+  end
 end
