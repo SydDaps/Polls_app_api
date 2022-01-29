@@ -6,6 +6,8 @@ class PublishJob < ApplicationJob
     params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHING)
 
     params[:voters].each do |voter|
+      puts voter.email
+      puts "------------"
       pass_key = SecureRandom.hex(4)
       voter.update!(
         pass_key: BCrypt::Password.create(pass_key)
