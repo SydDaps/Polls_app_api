@@ -23,7 +23,7 @@ class PublishJob < ApplicationJob
           index_number: voter.index_number,
           organization_name: params[:poll].organizer.name,
           poll_title: params[:poll].title,
-          voter_link: "https://aujcr.netlify.app/vote/#{params[:poll].id}",
+          voter_link: "https://epic-polls.netlify.app/vote/#{params[:poll].id}",
           start_at: "#{params[:poll].start_at.strftime("%B %d, %Y %I:%M%P")}",
           end_at: "#{params[:poll].end_at.strftime("%B %d, %Y %I:%M%P")}"
         }

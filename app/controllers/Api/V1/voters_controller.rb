@@ -68,7 +68,7 @@ class Api::V1::VotersController < ApplicationController
       end
 
       PublishJob.perform_later({
-      voters: voters,
+      voters: voters.to_a,
       poll: current_poll
       })
 
