@@ -29,6 +29,7 @@ class PublishJob < ApplicationJob
           }
         }
         Sender::Mailer.send( mail_params )
+      end
 
     end
 
