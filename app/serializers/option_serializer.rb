@@ -3,14 +3,9 @@ class OptionSerializer < BaseSerializer
         data = {
           id: resource.id,
           description: resource.description,
-          image_url: resource.image_url
+          image_url: resource.image_url,
+          sub_options: OptionSerializer.new( resource.sub_options ).serialize
         }
-
-        if resource.sub_options.present?
-          data = data.merge({
-            sub_options: OptionSerializer.new( resource.sub_options ).serialize
-          })
-        end
 
         if resource.section.poll.status == "Ended" && !resource.has_sub_options?
           data = data.merge({

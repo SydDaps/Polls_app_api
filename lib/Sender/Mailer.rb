@@ -1,5 +1,5 @@
-module Mailer
-    class Sender
+module Sender
+    class Mailer
         def self.template(name, data = nil)
             case name
             when "welcome"
