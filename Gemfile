@@ -32,6 +32,7 @@ gem 'rack-cors'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 gem 'foreman', '~> 0.87.2'
 gem 'sendgrid-ruby'
+gem 'phonelib', '~> 0.6.58'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

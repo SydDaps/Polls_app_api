@@ -3,19 +3,19 @@ class SectionSerializer < BaseSerializer
         data = {
             id: resource.id,
             description: resource.description,
-            options: OptionSerializer.new( resource.options ).serialize
+            options: OptionSerializer.new( resource.options.are_super_options ).serialize
         }
 
         if resource.poll.status == "Ended"
-            data = data.merge({ 
+            data = data.merge({
                 votes: resource.total_votes
             })
 
             data[:options] = data[:options].sort { |a, b| b[:votes] <=> a[:votes] }
         end
 
-        
-        
+
+
         data
     end
 

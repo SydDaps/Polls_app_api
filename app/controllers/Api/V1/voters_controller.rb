@@ -3,23 +3,39 @@ class Api::V1::VotersController < ApplicationController
 
   def create
     params.permit!
-    voters = params[:voters]
 
 
-    VoterJob.perform_later(
-      {
-        voters: voters,
-        poll: current_poll,
-        user: @current_user
+
+    if params[:single]
+      response = VoterService::Create.call(params[:voter].merge(poll: current_poll))
+
+      unless response[:success]
+        raise Exceptions::NotUniqueRecord.message(response[:message])
+      end
+
+      data = {
+        message: "Voter Added successfully",
+        voters: response[:voters]
       }
-    )
+
+    elsif params[:bulk]
+
+      VoterJob.perform_later(
+        {
+          voters: params[:voters],
+          poll: current_poll,
+          user: @current_user
+        }
+      )
+
+      data = {message: "Voters are being added"}
+
+    end
 
     render json: {
       success: true,
       code: 200,
-      data: {
-        messages: "Adding Voters"
-      }
+      data: data
     }
   end
 
@@ -67,7 +83,7 @@ class Api::V1::VotersController < ApplicationController
         voters = current_poll.voters.all.where(pass_key: nil)
       end
 
-      PublishJob.perform_later({
+      PublishJob.perform_now({
       voters: voters.to_a,
       poll: current_poll
       })

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_28_222618) do
+ActiveRecord::Schema.define(version: 2022_04_14_013119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,9 @@ ActiveRecord::Schema.define(version: 2022_01_28_222618) do
     t.string "image_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "super_option_id"
     t.index ["section_id"], name: "index_options_on_section_id"
+    t.index ["super_option_id"], name: "index_options_on_super_option_id"
   end
 
   create_table "organizers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -60,6 +62,7 @@ ActiveRecord::Schema.define(version: 2022_01_28_222618) do
     t.string "index_number"
     t.boolean "voted"
     t.string "pass_key"
+    t.string "phone_number"
     t.index ["poll_id"], name: "index_voters_on_poll_id"
   end
 
@@ -76,6 +79,7 @@ ActiveRecord::Schema.define(version: 2022_01_28_222618) do
     t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
+  add_foreign_key "options", "options", column: "super_option_id"
   add_foreign_key "options", "sections"
   add_foreign_key "polls", "organizers"
   add_foreign_key "sections", "polls"
