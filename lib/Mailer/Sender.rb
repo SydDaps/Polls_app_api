@@ -36,7 +36,7 @@ module Mailer
                 ],
                 from: {
                   email: "mailer@timetablr.xyz",
-                  name: "Epic Polls App"
+                  name: "Evandy JCR elections 2022"
                 },
                 template_id: "d-16b4b7d6a5f94bfa992b41a43a5cdcc7"
               }
