@@ -7,8 +7,8 @@ class Api::V1::VotersController < ApplicationController
 
 
     if params[:single]
-      params[:poll] = current_poll
-      response = VoterService::Create.call(params)
+      params[:voter][:poll] = current_poll
+      response = VoterService::Create.call(params[:voter])
 
       unless response[:success]
         raise Exceptions::NotUniqueRecord.message(response[:message])

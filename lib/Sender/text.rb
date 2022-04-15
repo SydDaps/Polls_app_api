@@ -3,7 +3,7 @@ module Sender
     def self.send(params)
 
       sms_context = {
-        senderId: "Poll 2022",
+        senderId: "EvandyPolls",
         msisdn: '233203669141',
         message: 'Ruby Sending SMS',
         username: 'sydney2131',
