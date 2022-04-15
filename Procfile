@@ -1,2 +1,2 @@
-web: rails s -p 3000
+web: rails s
 job: bundle exec sidekiq -c 2
