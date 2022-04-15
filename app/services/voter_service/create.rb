@@ -14,10 +14,13 @@ module VoterService
         return {success: false, message: "provide an email or valid phone number"}
       end
 
+      if @email
+        voter_email = @poll.voters.find_by(email: @email)
+      end
 
-      voter_email = @poll.voters.find_by(email: @email)
-
-      voter_phone = @poll.voters.find_by(phone_number: @phone_number)
+      if @phone_number
+        voter_phone = @poll.voters.find_by(phone_number: @phone_number)
+      end
 
       voter_index_number = @poll.voters.find_by(index_number: @index_number)
 

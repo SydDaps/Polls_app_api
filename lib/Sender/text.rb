@@ -1,7 +1,11 @@
 module Sender
   class Text
     def self.send(params)
-
+      message = <<~SMS.strip
+      Pass key: #{params[:passkey]}
+      ID: #{params[:passkey]}
+      Vote link: #{params[:passkey]}
+      SMS
       sms_context = {
         senderId: "EvandyPolls",
         msisdn: '233203669141',

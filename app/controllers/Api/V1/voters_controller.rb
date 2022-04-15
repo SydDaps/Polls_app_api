@@ -14,10 +14,7 @@ class Api::V1::VotersController < ApplicationController
         raise Exceptions::NotUniqueRecord.message(response[:message])
       end
 
-      data = {
-        message: "Voter Added successfully",
-        voters: response[:voters]
-      }
+      data = response[:voters]
 
     elsif params[:bulk]
 
