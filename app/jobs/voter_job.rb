@@ -8,6 +8,7 @@ class VoterJob < ApplicationJob
       puts "------------"
       puts response
 
+      next unless response[:voter]
       ActionCable.server.broadcast("admin_#{params[:user].id}",
         {
             data: {

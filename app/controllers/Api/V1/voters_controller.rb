@@ -81,7 +81,7 @@ class Api::V1::VotersController < ApplicationController
         voters = current_poll.voters.all.where(pass_key: nil)
       end
 
-      PublishJob.perform_now({
+      PublishJob.perform_later({
       voters: voters.to_a,
       poll: current_poll
       })

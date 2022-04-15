@@ -19,7 +19,10 @@ class PublishJob < ApplicationJob
       organization_name = params[:poll].organizer.name
       poll_title = params[:poll].title
 
-      if voter.email
+
+      puts voter.email.present?
+
+      if voter.email.present?
         mail_params = {
           to: voter.email,
           template_id: "d-16b4b7d6a5f94bfa992b41a43a5cdcc7",
@@ -28,14 +31,16 @@ class PublishJob < ApplicationJob
             subject: subject,
             index_number: index_number,
             organization_name: organization_name,
-            poll_title: poll_id,
+            poll_title: poll_title,
             voter_link: voter_link,
             start_at: start_at,
             end_at: end_at
           }
         }
+
         Sender::Mailer.send( mail_params )
-      elsif voter.phone_number
+      elsif voter.phone_number.present?
+
         sms_params = {
           to: voter.phone_number[1..],
           voter_link: voter_link,
@@ -46,6 +51,8 @@ class PublishJob < ApplicationJob
           poll_title: poll_title,
           organization_name: organization_name,
         }
+
+        Sender::Sms.send( sms_params )
       end
     end
 
