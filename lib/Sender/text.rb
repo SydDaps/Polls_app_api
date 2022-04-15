@@ -2,9 +2,10 @@ module Sender
   class Text
     def self.send(params)
       message = <<~SMS.strip
-      Pass key: #{params[:passkey]}
-      ID: #{params[:passkey]}
-      Vote link: #{params[:passkey]}
+      Evandy hostel Elections 2022
+      Pass key: "11111111"
+      ID: "1111111111"
+      Vote link: "https://epic-polls.netlify.app/vote/#{Poll.first.id}"
       SMS
       sms_context = {
         senderId: "EvandyPolls",
