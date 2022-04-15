@@ -42,7 +42,8 @@ module VoterService
 
       {
         success: true,
-        voters: VoterSerializer.new( @poll.reload.voters.all ).serialize
+        voters: VoterSerializer.new( @poll.reload.voters.all ).serialize,
+        voter: voter
       }
     end
   end
