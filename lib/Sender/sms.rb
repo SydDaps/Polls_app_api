@@ -3,6 +3,7 @@ module Sender
     def self.send(params)
       message = <<~SMS.strip
       Vote in the #{params[:poll_title]} which starts on #{params[:start_at]} and ends on #{params[:end_at]} with the details below:
+
       Pass key: #{params[:pass_key]}
       Index number: #{params[:index_number]}
       Vote link: #{params[:voter_link]}
