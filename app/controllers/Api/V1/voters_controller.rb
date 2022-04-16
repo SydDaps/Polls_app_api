@@ -5,7 +5,6 @@ class Api::V1::VotersController < ApplicationController
     params.permit!
 
 
-
     if params[:single]
       params[:voter][:poll] = current_poll
       response = VoterService::Create.call(params[:voter])
@@ -73,7 +72,7 @@ class Api::V1::VotersController < ApplicationController
 
   def publish
     if current_poll.publish_status == Poll::PublishedStatus::PUBLISHING
-      message = "Publishing to voters. Please try again later."
+      message = "Currently Publishing to voters. Please try again later."
     else
       if params[:voter_id]
         voters = [current_poll.voters.find(params[:voter_id])]

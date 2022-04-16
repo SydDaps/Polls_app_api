@@ -1,10 +1,10 @@
 module Sender
   class Sms
     def self.send(params)
-      puts "hhhhhh"
       message = <<~SMS.strip
-      #{params[:poll_title]}.
+      Vote in the #{params[:poll_title]} which starts on #{params[:start_at]} and ends on #{params[:end_at]} with the details below:
       Pass key: #{params[:pass_key]}
+      Index number: #{params[:index_number]}
       Vote link: #{params[:voter_link]}
       SMS
 
@@ -16,9 +16,10 @@ module Sender
         password: ENV['SMS_PASS']
       }
 
+      puts "----------"
+      puts message.length
      response = HTTP.post("https://api.helliomessaging.com/v1/sms", json: sms_context)
      response = JSON.parse response.body
-     puts response
     end
   end
 end

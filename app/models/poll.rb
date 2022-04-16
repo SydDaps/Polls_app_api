@@ -27,4 +27,9 @@ class Poll < ApplicationRecord
       PUBLISHED = 'published'
       PUBLISHING = 'publishing'
     end
+
+    module PublishMedium
+      SMS = 'sms'
+      EMAIL = 'email'
+    end
 end
