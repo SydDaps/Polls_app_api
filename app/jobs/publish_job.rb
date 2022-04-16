@@ -24,10 +24,10 @@ class PublishJob < ApplicationJob
       @organization_name = @poll.organizer.name
       @poll_title = @poll.title
 
-      case @poll.publish_medium
-      when Poll::PublishMedium::EMAIL
+      case @poll.publishing_medium
+      when Poll::PublishingMedium::EMAIL
         send_mail
-      when Poll::PublishMedium::SMS
+      when Poll::PublishingMedium::SMS
         send_sms
       end
     end
