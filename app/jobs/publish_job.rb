@@ -12,7 +12,7 @@ class PublishJob < ApplicationJob
       @pass_key = SecureRandom.hex(4)
 
       voter.update!(
-        pass_key: BCrypt::Password.create(pass_key)
+        pass_key: BCrypt::Password.create(@pass_key)
       )
 
       @voter = voter
