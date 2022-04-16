@@ -26,10 +26,17 @@ class PublishJob < ApplicationJob
 
       case @poll.publishing_medium
       when Poll::PublishingMedium::EMAIL
+
+        next unless @voter.email
         send_mail
+
       when Poll::PublishingMedium::SMS
+
+        next unless @voter.phone_number
         send_sms
+
       end
+
     end
 
     params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHED)
