@@ -1,12 +1,21 @@
 module SectionService
     class Create < BaseService
         def initialize(params)
-            @poll = params[:current_poll]
-            @sections = params[:sections]
+          @poll = params[:current_poll]
+          @sections = params[:sections]
         end
 
         def call
           Section.transaction do
+            unless @poll.status == "Not Started"
+              return {
+                success: false,
+                message: "Section and Option details can not be changed after poll had started."
+              }
+            end
+
+            @poll.sections.destroy_all
+
             @sections.each do |section|
                 new_section = @poll.sections.create(
                   description: section[:description]
@@ -30,6 +39,8 @@ module SectionService
                 end
             end
           end
+
+          {success: true}
         end
     end
 end

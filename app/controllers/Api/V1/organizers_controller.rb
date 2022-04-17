@@ -4,9 +4,7 @@ class Api::V1::OrganizersController < ApplicationController
 
   def create
       response = OrganizerService::Create.call(params)
-      
-      
-    
+
       render json: {
           success: true,
           code: 200,
