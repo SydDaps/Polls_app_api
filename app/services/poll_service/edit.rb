@@ -2,7 +2,7 @@ module PollService
   class Edit < BaseService
     def initialize(params)
       @poll = params[:poll]
-      @title = params[:titleπ]
+      @title = params[:title]
       @start_at = params[:start_at]
       @end_at = params[:end_at]
       @description = params[:description]
@@ -12,7 +12,7 @@ module PollService
       unless @poll.status == "Not Started"
         return {
           success: false,
-          message: "Section and Option details can not be changed after poll had started."
+          message: "Poll details can not be changed after poll had started."
         }
       end
 
