@@ -9,11 +9,6 @@ class PublishJob < ApplicationJob
 
     @voters.each do |voter|
 
-      @pass_key = SecureRandom.hex(4)
-
-      voter.update!(
-        pass_key: BCrypt::Password.create(@pass_key)
-      )
 
       @voter = voter
       @voter_link = "https://epic-polls.netlify.app/vote/#{@poll.id}"
@@ -23,20 +18,29 @@ class PublishJob < ApplicationJob
       @index_number = voter.index_number
       @organization_name = @poll.organizer.name
       @poll_title = @poll.title
+      @pass_key = SecureRandom.hex(4)
 
       case @poll.publishing_medium
+
       when Poll::PublishingMedium::EMAIL
 
         next unless @voter.email
+
         send_mail
+
+        update = true
 
       when Poll::PublishingMedium::SMS
 
         next unless @voter.phone_number
-        send_sms
+
+        update = send_sms
 
       end
 
+      if update
+        update_voter
+      end
     end
 
     params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHED)
@@ -75,6 +79,19 @@ class PublishJob < ApplicationJob
       index_number: @index_number
     }
 
-    Sender::Sms.send( sms_params )
+   response =  Sender::Sms.new(sms_params).send_hellio
+
+   unless response
+    response =  Sender::Sms.new(sms_params).send_arkesel
+   end
+
+   response
+  end
+
+
+  def update_voter
+    @voter.update!(
+      pass_key: BCrypt::Password.create(@pass_key)
+    )
   end
 end
