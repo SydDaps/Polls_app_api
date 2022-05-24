@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_16_031122) do
+ActiveRecord::Schema.define(version: 2022_05_22_232824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "agents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email"
+    t.string "name"
+    t.string "phone_number"
+    t.string "password_digest"
+    t.uuid "poll_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "reset_token"
+    t.datetime "reset_token_valid_time"
+    t.index ["poll_id"], name: "index_agents_on_poll_id"
+  end
 
   create_table "options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "section_id"
@@ -43,7 +56,8 @@ ActiveRecord::Schema.define(version: 2022_04_16_031122) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "publish_status"
-    t.string "publishing_medium", default: "email"
+    t.jsonb "meta", default: {}
+    t.string "publish_mediums", default: [], array: true
     t.index ["organizer_id"], name: "index_polls_on_organizer_id"
   end
 
@@ -64,6 +78,10 @@ ActiveRecord::Schema.define(version: 2022_04_16_031122) do
     t.boolean "voted"
     t.string "pass_key"
     t.string "phone_number"
+    t.uuid "agent_id"
+    t.uuid "organizer_id"
+    t.index ["agent_id"], name: "index_voters_on_agent_id"
+    t.index ["organizer_id"], name: "index_voters_on_organizer_id"
     t.index ["poll_id"], name: "index_voters_on_poll_id"
   end
 
@@ -80,10 +98,13 @@ ActiveRecord::Schema.define(version: 2022_04_16_031122) do
     t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
+  add_foreign_key "agents", "polls"
   add_foreign_key "options", "options", column: "super_option_id"
   add_foreign_key "options", "sections"
   add_foreign_key "polls", "organizers"
   add_foreign_key "sections", "polls"
+  add_foreign_key "voters", "agents"
+  add_foreign_key "voters", "organizers"
   add_foreign_key "voters", "polls"
   add_foreign_key "votes", "options"
   add_foreign_key "votes", "polls"

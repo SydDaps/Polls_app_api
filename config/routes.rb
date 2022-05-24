@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       resource :organizer, only: [:create]
       resource :token, only: [:create]
 
+
+
+
+
       resources :polls, only: [:create, :index, :show, :update]
 
       resources :polls do
@@ -17,6 +21,10 @@ Rails.application.routes.draw do
         post 'voter/publish', to: 'voters#publish'
 
         resources :votes, only: [:create, :show]
+        resources :agents, only: [:create, :index]
+
+        get 'agent_reset_token', to: 'agents#reset_token'
+        post 'agent_reset_password', to: 'agents#reset_password'
       end
 
     end

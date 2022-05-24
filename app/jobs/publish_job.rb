@@ -4,53 +4,54 @@ class PublishJob < ApplicationJob
   def perform(params)
     @poll = params[:poll]
     @voters = params[:voters]
+    @voter_link = "https://epic-polls.netlify.app/vote/#{@poll.id}"
+    @start_at = "#{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
+    @end_at = "#{@poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
+    @subject = "#{@poll.title} poll"
+    @organization_name = @poll.organizer.name
+    @poll_title = @poll.title
+    @template_id = ENV['POLL_LINK_TEMPLATE_ID']
 
     @poll.update(publish_status: Poll::PublishedStatus::PUBLISHING)
 
     @voters.each do |voter|
-
-
       @voter = voter
-      @voter_link = "https://epic-polls.netlify.app/vote/#{@poll.id}"
-      @start_at = "#{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
-      @end_at = "#{@poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
-      @subject = "#{@poll.title} poll"
       @index_number = voter.index_number
-      @organization_name = @poll.organizer.name
-      @poll_title = @poll.title
       @pass_key = SecureRandom.hex(4)
 
-      case @poll.publishing_medium
+      @poll.publish_mediums.each do |medium|
+        case medium
+        when Poll::PublishingMedium::EMAIL
 
-      when Poll::PublishingMedium::EMAIL
+          next unless @voter.email
 
-        next unless @voter.email
+          send_mail
 
-        send_mail
+          update = true
 
-        update = true
+        when Poll::PublishingMedium::SMS
 
-      when Poll::PublishingMedium::SMS
+          next unless @voter.phone_number
 
-        next unless @voter.phone_number
+          update = send_sms
 
-        update = send_sms
+        end
 
-      end
-
-      if update
-        update_voter
+        if update
+          update_voter
+        end
       end
     end
 
-    params[:poll].update(publish_status: Poll::PublishedStatus::PUBLISHED)
+    @poll.update(publish_status: Poll::PublishedStatus::PUBLISHED)
 
   end
 
   def send_mail
     mail_params = {
       to: @voter.email,
-      template_id: "d-16b4b7d6a5f94bfa992b41a43a5cdcc7",
+      template_id: @template_id,
+      organization_name: @organization_name,
       template_data: {
         pass_key: @pass_key,
         subject: @subject,
@@ -76,7 +77,8 @@ class PublishJob < ApplicationJob
       pass_key: @pass_key,
       poll_title: @poll_title,
       organization_name: @organization_name,
-      index_number: @index_number
+      index_number: @index_number,
+      sender_id: @poll.meta["sms_subject"]
     }
 
    response =  Sender::Sms.new(sms_params).send_hellio
@@ -95,3 +97,5 @@ class PublishJob < ApplicationJob
     )
   end
 end
+
+
