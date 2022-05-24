@@ -23,7 +23,7 @@ module AgentService
         template_id: ENV["RESET_PASSWORD_TEMPLATE_ID"],
         template_data: {
           reset_token: reset_token,
-          expires_in: reset_token_valid_time
+          expires_in: reset_token_valid_time,
           subject: "#{@poll.title} agent password reset"
         }
       }
