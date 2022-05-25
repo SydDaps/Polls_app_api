@@ -24,7 +24,7 @@ module AgentService
 
       data = AgentSerializer.new( agent ).serialize
       {
-        message = response[:message],
+        message: response[:message],
         data: data
       }
     end
