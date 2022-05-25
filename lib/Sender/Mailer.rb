@@ -27,7 +27,7 @@ module Sender
                   }
                 ],
                 from: {
-                  email: "mailer@timetablr.xyz",
+                  email: ENV['MAIL_FROM'],
                   name: params[:organization_name]
                 },
                 template_id: params[:template_id]
