@@ -20,6 +20,8 @@ Rails.application.routes.draw do
         post 'voter/login', to: 'voters#login'
         post 'voter/publish', to: 'voters#publish'
 
+        post 'agent/login', to: 'agents#login'
+
         resources :votes, only: [:create, :show]
         resources :agents, only: [:create, :index]
 

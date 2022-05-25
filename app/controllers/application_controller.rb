@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
     include ErrorHandler
 
     def authenticate_request
-        @current_user = Auth::AuthorizeRequest.call(request.headers)
+      @current_user = Auth::AuthorizeRequest.call(request.headers)
     end
 
     def current_poll
