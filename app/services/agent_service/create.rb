@@ -37,7 +37,7 @@ module AgentService
           name: @name,
           email: @email
         )
-        byebug
+
         message_sent = ::AgentService::SendResetToken.call(@params)
       end
 
