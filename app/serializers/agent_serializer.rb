@@ -3,8 +3,7 @@ class AgentSerializer < BaseSerializer
     {
       id: resource.id,
       name: resource.name,
-      email: resource.email,
-      voters: VoterSerializer.new( resource.voters.all ).serialize
+      email: resource.email
     }
   end
 end

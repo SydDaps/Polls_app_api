@@ -17,7 +17,7 @@ module Auth
                 elsif decode_auth_token[:voter_id]
                     @user = Voter.find(decode_auth_token[:voter_id])
                 elsif decode_auth_token[:agent_id]
-                    @user = Agent.find(decode_auth_token[:voter_id])
+                    @user = Agent.find(decode_auth_token[:agent_id])
                 end
             end
             raise Exceptions::UnauthorizedOperation.message("User Not found") unless @user

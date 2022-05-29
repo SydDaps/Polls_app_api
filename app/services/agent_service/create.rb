@@ -10,23 +10,45 @@ module AgentService
     end
 
     def call
-      agent = @poll.agents.find_by(email: @email)
-      if agent
-        raise Exceptions::NotUniqueRecord.message("Agent with email #{@email} already added")
-      end
+      validate_agent
 
-      agent = @poll.agents.create!(
-        name: @name,
-        email: @email
-      )
+      message = add_agent_to_poll
 
-      response = AgentService::SendResetToken.call(@params)
-
-      data = AgentSerializer.new( agent ).serialize
+      data = AgentSerializer.new( @agent ).serialize
       {
-        message: response[:message],
+        message: message,
         data: data
       }
+    end
+
+    def validate_agent
+      @agent = @poll.agents.find_by(email: @email)
+
+      if @agent
+        raise Exceptions::NotUniqueRecord.message("Agent with email #{@email} already added to poll")
+      end
+    end
+
+    def add_agent_to_poll
+      @agent = Agent.find_by(email: @email)
+
+      unless @agent
+        @agent = Agent.create!(
+          name: @name,
+          email: @email
+        )
+        byebug
+        message_sent = ::AgentService::SendResetToken.call(@params)
+      end
+
+      @poll.agents.push(@agent)
+      @poll.save!
+
+
+      message = "Agent added to poll. "
+      message = message + message_sent[:message] if message_sent
+
+      message
     end
   end
 end

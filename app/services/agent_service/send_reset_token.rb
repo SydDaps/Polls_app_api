@@ -6,9 +6,9 @@ module AgentService
     end
 
     def call
-      agent = @poll.agents.find_by(email: @email)
+      agent = Agent.find_by(email: @email)
       raise ActiveRecord::RecordNotFound
-      .new("Agent with email #{@email} is not registered with this poll") unless agent
+      .new("Agent with email #{@email} is not a registered agent.") unless agent
 
       reset_token = SecureRandom.uuid
       reset_token_valid_time = DateTime.now + 10.minutes
@@ -31,7 +31,7 @@ module AgentService
       Sender::Mailer.send( mail_params )
 
       {
-        message: "A reset token has been sent to your email."
+        message: "A reset token has been sent to email."
       }
     end
   end

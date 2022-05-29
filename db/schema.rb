@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_22_232824) do
+ActiveRecord::Schema.define(version: 2022_05_28_000459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,12 +20,19 @@ ActiveRecord::Schema.define(version: 2022_05_22_232824) do
     t.string "name"
     t.string "phone_number"
     t.string "password_digest"
-    t.uuid "poll_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "reset_token"
     t.datetime "reset_token_valid_time"
-    t.index ["poll_id"], name: "index_agents_on_poll_id"
+  end
+
+  create_table "agents_polls", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "agent_id"
+    t.uuid "poll_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["agent_id"], name: "index_agents_polls_on_agent_id"
+    t.index ["poll_id"], name: "index_agents_polls_on_poll_id"
   end
 
   create_table "options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -98,7 +105,8 @@ ActiveRecord::Schema.define(version: 2022_05_22_232824) do
     t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
-  add_foreign_key "agents", "polls"
+  add_foreign_key "agents_polls", "agents"
+  add_foreign_key "agents_polls", "polls"
   add_foreign_key "options", "options", column: "super_option_id"
   add_foreign_key "options", "sections"
   add_foreign_key "polls", "organizers"

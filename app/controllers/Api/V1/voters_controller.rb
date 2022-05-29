@@ -37,10 +37,18 @@ class Api::V1::VotersController < ApplicationController
   end
 
   def index
+
+    case @current_user.type
+    when "Organizer"
+      voters = current_poll.voters.all
+    when "Agent"
+      voters = @current_user.voters.all
+    end
+
     render json: {
       success: true,
       code: 200,
-      data: VoterSerializer.new( current_poll.voters.all ).serialize
+      data: VoterSerializer.new( voters ).serialize
     }
   end
 

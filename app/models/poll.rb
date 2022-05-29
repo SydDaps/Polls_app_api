@@ -14,7 +14,7 @@ class Poll < ApplicationRecord
   has_many :sections, dependent: :destroy
   has_many :voters, dependent: :destroy
   has_many :votes, dependent: :destroy
-  has_many :agents, dependent: :destroy
+  has_and_belongs_to_many :agents, dependent: :destroy
 
   validate :validate_publish_mediums
   validate :validate_meta

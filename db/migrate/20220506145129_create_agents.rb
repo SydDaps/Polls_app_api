@@ -5,7 +5,6 @@ class CreateAgents < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :phone_number
       t.string :password_digest
-      t.belongs_to :poll, type: :uuid, foreign_key: true
       t.timestamps
     end
   end
