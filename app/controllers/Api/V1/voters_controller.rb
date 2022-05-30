@@ -42,7 +42,7 @@ class Api::V1::VotersController < ApplicationController
     when "Organizer"
       voters = current_poll.voters.all
     when "Agent"
-      voters = @current_user.voters.all
+      voters = @current_user.voters.where(poll_id: current_poll.id)
     end
 
     render json: {
