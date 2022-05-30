@@ -4,9 +4,15 @@ class VoterJob < ApplicationJob
   def perform(params)
     params[:voters].each do |voter|
 
-      response = VoterService::Create.call(voter.merge(poll: params[:poll]))
-      puts "------------"
-      puts response
+      poll = params[:poll]
+      organizer = poll.organizer
+
+      response = VoterService::Create.call(
+        voter.merge(
+          poll: poll,
+          organizer_id: organizer.id
+        )
+      )
 
       next unless response[:voter]
       ActionCable.server.broadcast("admin_#{params[:user].id}",
