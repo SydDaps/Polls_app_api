@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_28_000459) do
+ActiveRecord::Schema.define(version: 2022_05_30_171430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 2022_05_28_000459) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reset_token"
+    t.datetime "reset_token_valid_time"
   end
 
   create_table "polls", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

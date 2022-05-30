@@ -31,6 +31,9 @@ Rails.application.routes.draw do
         post 'agent_reset_password', to: 'agents#reset_password'
       end
 
+      get 'user_reset_token', to: 'users#reset_token'
+      post 'user_reset_password', to: 'users#reset_password'
+
     end
 
 
