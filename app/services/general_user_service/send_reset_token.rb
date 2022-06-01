@@ -34,7 +34,7 @@ module GeneralUserService
         organization_name: "Polyticks app",
         template_id: ENV["RESET_PASSWORD_TEMPLATE_ID"],
         template_data: {
-          reset_link: "https://www.polyticks.app/forgot?token=${#{token}}",
+          reset_link: "https://www.polyticks.app/forgot?token=#{token}",
           expires_in: 10.minutes.from_now.strftime("%m-%d-%Y %I:%M%p"),
           subject: "Polyticks app #{@user_type} password reset"
         }
