@@ -39,7 +39,7 @@ class Api::V1::AgentsController < ApplicationController
   end
 
   def reset_password
-    response = GeneralUserService::ResetPassword.call(params.merge(poll: current_poll))
+    response = GeneralUserService::ResetPassword.call(params.merge(user_type: "agent"))
     render json: {
       success: true,
       code: 200,

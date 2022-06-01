@@ -38,7 +38,7 @@ module AgentService
           email: @email
         )
 
-        message_sent = ::GeneralUserService::SendResetToken.call(@params)
+        message_sent = ::GeneralUserService::SendResetToken.call(@params.merge(user_type: "agent"))
       end
 
       @poll.agents.push(@agent)
