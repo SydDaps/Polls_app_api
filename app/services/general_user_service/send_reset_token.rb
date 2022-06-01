@@ -1,7 +1,6 @@
 module GeneralUserService
   class SendResetToken < BaseService
     def initialize(params)
-      @poll = params[:poll]
       @email = params[:email]
       @user_type = params[:user_type]
     end
@@ -40,6 +39,8 @@ module GeneralUserService
           subject: "Polyticks app #{@user_type} password reset"
         }
       }
+
+      puts mail_params
 
       Sender::Mailer.send( mail_params )
 
