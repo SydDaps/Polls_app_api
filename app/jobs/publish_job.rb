@@ -7,7 +7,7 @@ class PublishJob < ApplicationJob
     @voter_link = "https://polyticks.app/voter/vote/#{@poll.id}"
     @start_at = "#{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
     @end_at = "#{@poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
-    @subject = "#{@poll.title} poll"
+    @subject = "#{@poll.title}"
     @organization_name = @poll.organizer.name
     @poll_title = @poll.title
     @template_id = ENV['POLL_LINK_TEMPLATE_ID']
