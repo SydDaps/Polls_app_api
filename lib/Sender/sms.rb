@@ -12,6 +12,7 @@ module Sender
       @index_number = params[:index_number]
       @sender_id = params[:sender_id]
       @phone_number = params[:phone_number]
+      @password_set = params[:password_set]
     end
 
     def send_hellio

@@ -77,7 +77,8 @@ class PublishJob < ApplicationJob
       poll_title: @poll_title,
       organization_name: @organization_name,
       sender_id: @poll.meta["sms_subject"],
-      phone_number: "0#{@voter.phone_number[4..]}"
+      phone_number: "0#{@voter.phone_number[4..]}",
+      password_set: @voter.password_set
     }
 
    response =  Sender::Sms.new(sms_params).send_hellio
