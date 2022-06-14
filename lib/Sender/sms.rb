@@ -98,9 +98,9 @@ module Sender
       SMS
 
       if @password_set
-        @message + " and password"
+        @message += " and password"
       else
-        @message + " and temporary password #{@temporary_password}"
+        @message += " and temporary password #{@temporary_password}"
       end
     end
   end
