@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_14_002148) do
+ActiveRecord::Schema.define(version: 2022_06_14_224848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2022_06_14_002148) do
     t.uuid "voter_id"
     t.uuid "organizer_id"
     t.string "index_number"
-    t.boolean "has_voted"
+    t.boolean "has_voted", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["agent_id"], name: "index_onboardings_on_agent_id"

@@ -7,7 +7,11 @@ class ApplicationController < ActionController::API
     end
 
     def current_poll
-        return Poll.find(params[:id]) if params[:id]
-        Poll.find(params[:poll_id])
+        authenticate_request
+        if params[:id]
+          @current_user.polls.find(params[:id]) if params[:id]
+        else
+          @current_user.polls.find(params[:poll_id])
+        end
     end
 end

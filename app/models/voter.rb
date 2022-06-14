@@ -12,4 +12,8 @@ class Voter < ApplicationRecord
   has_many :onboardings
   has_many :polls, through: :onboardings
 
+  def has_voted(poll_id)
+    onboarding = self.onboardings.where(poll_id: poll_id)&.first
+    onboarding&.has_voted
+  end
 end
