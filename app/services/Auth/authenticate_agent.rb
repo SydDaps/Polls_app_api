@@ -3,7 +3,6 @@ module Auth
     def initialize(params)
       @email = params[:email]
       @password = params[:password]
-      @poll = params[:poll]
     end
 
     def call

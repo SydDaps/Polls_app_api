@@ -37,37 +37,10 @@ class Api::V1::VotersController < ApplicationController
   end
 
   def index
-
     render json: {
       success: true,
       code: 200,
-      data: VoterSerializer.new( current_poll.voters.all ).serialize
-    }
-  end
-
-  def login
-    voter = current_poll.voters.find_by_index_number(params[:index_number])
-
-    raise Exceptions::NotUniqueRecord.message("The index number #{params[:index_number]} is not registered with this poll.") unless voter
-
-    pass_hash = BCrypt::Password.new(voter.pass_key)
-
-    unless pass_hash == params[:pass_key]
-
-      raise Exceptions::NotUniqueRecord.message("Invalid Pass Key")
-
-    end
-
-    token = JWT::JsonWebToken.encode({voter_id: voter.id}) if voter
-
-    render json: {
-      success: true,
-      code: 200,
-      data: {
-        user: voter,
-        access_token: token,
-        poll: PollSerializer.new( current_poll ).serialize
-      },
+      data: OnboardingSerializer.new( current_poll.onboardings ).serialize
     }
   end
 

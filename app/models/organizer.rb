@@ -8,6 +8,8 @@ class Organizer < ApplicationRecord
     validates :email, presence: true
     validates :password_confirmation, presence: true
 
+    has_many :onboardings
+
     def type
       "Organizer"
     end

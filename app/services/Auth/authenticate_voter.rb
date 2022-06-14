@@ -1,30 +1,19 @@
 module Auth
   class AuthenticateVoter < BaseService
     def initialize(params)
-      @index_number = params[:index_number]
-      @pass_key = params[:pass_key]
-      @poll = params[:poll]
+      @email = params[:email]
+      @password = params[:password]
     end
 
     def call
-      voter = @poll.voters.find_by_index_number(@index_number)
+      voter = Voter.find_by(email: @email)&.authenticate(@password)
 
       raise Exceptions::NotUniqueRecord
-      .message("The index number #{@index_number} is not registered with this poll.") unless voter
-
-      pass_hash = BCrypt::Password.new(voter.pass_key)
-
-      unless pass_hash == @pass_key
-
-        raise Exceptions::NotUniqueRecord.message("Invalid Pass Key")
-
-      end
-
+      .message("Check email or password") unless voter
 
       {
-        user: voter,
-        access_token: JWT::JsonWebToken.encode({voter_id: voter.id}),
-        poll: PollSerializer.new( @poll ).serialize
+        token: JWT::JsonWebToken.encode({voter_id: voter.id}),
+        voter: VoterSerializer.new( voter ).serialize
       }
 
     end

@@ -4,7 +4,7 @@ class PublishJob < ApplicationJob
   def perform(params)
     @poll = params[:poll]
     @voters = params[:voters]
-    @voter_link = "https://polyticks.app/voter/vote/#{@poll.id}"
+    @voter_link = "https://polyticks.app/"
     @start_at = "#{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
     @end_at = "#{@poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
     @subject = "#{@poll.title}"
@@ -16,8 +16,8 @@ class PublishJob < ApplicationJob
 
     @voters.each do |voter|
       @voter = voter
-      @index_number = voter.index_number
-      @pass_key = SecureRandom.hex(4)
+
+      @temporary_password = SecureRandom.hex(4) unless voter.password_set
 
       @poll.publish_mediums.each do |medium|
         case medium
@@ -53,14 +53,15 @@ class PublishJob < ApplicationJob
       template_id: @template_id,
       organization_name: @organization_name,
       template_data: {
-        pass_key: @pass_key,
+        temporary_password: @temporary_password,
         subject: @subject,
-        index_number: @index_number,
+        email: @voter.email,
         organization_name: @organization_name,
         poll_title: @poll_title,
         voter_link: @voter_link,
         start_at: @start_at,
-        end_at: @end_at
+        end_at: @end_at,
+        password_set: @voter.password_set
       }
     }
 
@@ -92,8 +93,8 @@ class PublishJob < ApplicationJob
 
 
   def update_voter
-    @voter.update!(
-      pass_key: BCrypt::Password.create(@pass_key)
+    @voter.update(
+      password: @temporary_password
     )
   end
 end

@@ -10,25 +10,20 @@ module VoterService
     end
 
     def call
-      response = parse_phone_number
-      return response unless response[:success]
-
-      response = check_uniqueness
-      return response unless response[:success]
-
       response = create_voter
       return response unless response[:success]
 
       {
         success: true,
-        voters: VoterSerializer.new( @poll.reload.voters.all ).serialize,
+        voters: OnboardingSerializer.new( @poll.reload.onboardings ).serialize,
         voter: @voter
       }
     end
 
-    def check_uniqueness
+    def create_voter
+      parse_phone_number if @phone_number
+
       @fields = {
-        index_number: @index_number,
         phone_number: @phone_number,
         email: @email
       }
@@ -36,35 +31,36 @@ module VoterService
       @fields.each do |key, value|
         next unless value
 
-        voter = @poll.voters.find_by(key => value)
-
-        if voter
-          data = voter.method(key).call
-          return {
-            success: false,
-            message: "voter with #{key} #{data} already added"
-          }
-        end
+        @voter = Voter.find_by(key => value)
+        break if @voter
       end
 
-      {success: true}
-    end
+      poll = @voter&.polls&.where(id: @poll.id)&.first
 
-    def create_voter
-      @voter = @poll.voters.create(
-        @fields.merge(
-          organizer_id: @organizer_id,
-          agent_id: @agent_id
-        )
-      )
-
-      unless @voter.valid?
-        error_messages = []
-        @voter.errors.messages.each{ |key, value| error_messages.push("#{key} #{value.join(",")}") }
+      if poll
         return {
           success: false,
-          message: error_messages.join(", ")
+          message: "voter with credentials #{@fields.values.join(", ")} already added to poll"
         }
+      elsif !@voter
+        @voter = Voter.create(@fields)
+      end
+
+      @onboarding = @poll.onboardings.create(
+        voter: @voter,
+        agent_id: @agent_id,
+        organizer_id: @organizer_id
+      )
+
+      [@voter, @onboarding].each do |entity|
+        unless entity.valid?
+          error_messages = []
+          entity.errors.messages.each{ |key, value| error_messages.push("#{key} #{value.join(",")}") }
+          return {
+            success: false,
+            message: error_messages.join(", ")
+          }
+        end
       end
 
       {success: true}
@@ -89,3 +85,20 @@ module VoterService
     end
   end
 end
+
+
+
+
+# Voter.all.each do |voter|
+#   voter.polls.push(Poll.find(voter.poll_id))
+#   voter.save
+# end
+
+# Voter.all.each do |voter|
+#    Onboarding.create!(
+#       voter: voter,
+#       poll_id: voter.poll_id,
+#       organizer: Poll.find(voter.poll_id).organizer,
+#       has_voted: !voter.votes.empty?
+#     )
+# end

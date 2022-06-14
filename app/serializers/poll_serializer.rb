@@ -10,8 +10,8 @@ class PollSerializer < BaseSerializer
           publish_mediums: resource.publish_mediums,
           sms_subject: resource.meta["sms_subject"],
           total_voters: resource.total_voters,
-          total_votes: resource.voters.where(voted: true).count,
-          total_voted_percentage: ((resource.voters.where(voted: true).count.to_f / resource.total_voters) * 100.0).round(2),
+          total_votes: resource.total_voted,
+          total_voted_percentage: ((resource.total_voted.to_f / resource.total_voters) * 100.0).round(2),
           sections: SectionSerializer.new( resource.sections ).serialize
         }
     end

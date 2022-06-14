@@ -9,7 +9,7 @@ class Api::V1::TokensController < ApplicationController
       when "agent"
         response = Auth::AuthenticateAgent.call(params)
       when "voter"
-        response = Auth::AuthenticateVoter.call(params.merge(poll: current_poll))
+        response = Auth::AuthenticateVoter.call(params)
       end
 
       render json: {
