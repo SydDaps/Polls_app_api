@@ -37,9 +37,7 @@ class PublishJob < ApplicationJob
 
         end
 
-        if update
-          update_voter
-        end
+        update_voter if update
       end
     end
 
@@ -75,11 +73,11 @@ class PublishJob < ApplicationJob
       subject: @subject,
       start_at: @start_at,
       end_at: @end_at,
-      pass_key: @pass_key,
+      temporary_password: @temporary_password,
       poll_title: @poll_title,
       organization_name: @organization_name,
-      index_number: @index_number,
-      sender_id: @poll.meta["sms_subject"]
+      sender_id: @poll.meta["sms_subject"],
+      phone_number: "0#{@voter.phone_number[4..]}"
     }
 
    response =  Sender::Sms.new(sms_params).send_hellio

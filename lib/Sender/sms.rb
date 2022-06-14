@@ -11,6 +11,7 @@ module Sender
       @organization_name = params[:organization_name]
       @index_number = params[:index_number]
       @sender_id = params[:sender_id]
+      @phone_number = params[:phone_number]
     end
 
     def send_hellio
@@ -61,8 +62,26 @@ module Sender
         sms: @message
       }
 
-      response = HTTP.get("https://sms.arkesel.com/sms/api", json: sms_context)
-      response = JSON.parse( response.body ).with_indifferent_access
+
+
+      begin
+        response = HTTP.get("https://sms.arkesel.com/sms/api", json: sms_context)
+        response = JSON.parse( response.body ).with_indifferent_access
+      rescue HTTP::TimeoutError => e
+        response_body = {
+          'status' => 'Failed',
+          'error_code' => HTTP::TimeoutError,
+          'message' => e.message
+        }
+      rescue HTTP::ConnectionError => e
+        response_body = {
+          'status' => 'Failed',
+          'error_code' => HTTP::ConnectionError,
+          'message' => e.message
+        }
+      rescue JSON::ParserError
+        response_body = { body: response.body.to_s }
+      end
 
       unless response[:code] == "ok"
         return false
@@ -73,12 +92,15 @@ module Sender
 
     def build_message
       @message = <<~SMS.strip
-      Vote in the #{@poll_title} which starts on #{@start_at} and ends on #{@end_at} with the details below:
-
-      Pass key: #{@pass_key}
-      Index number: #{@index_number}
-      Vote link: #{@voter_link}
+      Vote in the #{@poll_title} which starts on #{@start_at} and ends on #{@end_at} via #{@voter_link}
+      with your phone_number #{@phone_number}
       SMS
+
+      if @password_set
+        @message + "and password"
+      else
+        @message + "and temporary password #{@temporary_password}"
+      end
     end
   end
 end
