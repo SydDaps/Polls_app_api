@@ -4,17 +4,9 @@ class VoterSerializer < BaseSerializer
         id: resource.id,
         phone_number: resource.phone_number,
         email: resource.email,
-        index_number: resource.index_number
+        index_number: resource.index_number,
+        password_set: resource.password_set
       }
-
-      if resource.organizer
-        added_by = resource.organizer.name
-      elsif resource.agent
-        added_by = resource.agent.name
-      end
-
-      data.merge(added_by: added_by)
-
     end
 
 end

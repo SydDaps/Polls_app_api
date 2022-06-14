@@ -14,7 +14,6 @@ Rails.application.routes.draw do
       resources :polls, only: [:create, :index, :show, :update]
 
       resources :polls do
-        resource :token, only: [:create]
 
         get '/analytics', to: 'polls#analytics'
         resources :sections, only: [:create, :index]

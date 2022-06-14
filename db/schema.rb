@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_30_171430) do
+ActiveRecord::Schema.define(version: 2022_06_14_002148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,21 @@ ActiveRecord::Schema.define(version: 2022_05_30_171430) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["agent_id"], name: "index_agents_polls_on_agent_id"
     t.index ["poll_id"], name: "index_agents_polls_on_poll_id"
+  end
+
+  create_table "onboardings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "poll_id"
+    t.uuid "agent_id"
+    t.uuid "voter_id"
+    t.uuid "organizer_id"
+    t.string "index_number"
+    t.boolean "has_voted"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["agent_id"], name: "index_onboardings_on_agent_id"
+    t.index ["organizer_id"], name: "index_onboardings_on_organizer_id"
+    t.index ["poll_id"], name: "index_onboardings_on_poll_id"
+    t.index ["voter_id"], name: "index_onboardings_on_voter_id"
   end
 
   create_table "options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -89,6 +104,8 @@ ActiveRecord::Schema.define(version: 2022_05_30_171430) do
     t.string "phone_number"
     t.uuid "agent_id"
     t.uuid "organizer_id"
+    t.string "password_digest"
+    t.boolean "password_set", default: false
     t.index ["agent_id"], name: "index_voters_on_agent_id"
     t.index ["organizer_id"], name: "index_voters_on_organizer_id"
     t.index ["poll_id"], name: "index_voters_on_poll_id"
@@ -109,6 +126,10 @@ ActiveRecord::Schema.define(version: 2022_05_30_171430) do
 
   add_foreign_key "agents_polls", "agents"
   add_foreign_key "agents_polls", "polls"
+  add_foreign_key "onboardings", "agents"
+  add_foreign_key "onboardings", "organizers"
+  add_foreign_key "onboardings", "polls"
+  add_foreign_key "onboardings", "voters"
   add_foreign_key "options", "options", column: "super_option_id"
   add_foreign_key "options", "sections"
   add_foreign_key "polls", "organizers"

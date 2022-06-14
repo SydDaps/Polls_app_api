@@ -6,13 +6,15 @@ module Auth
         end
 
         def call
-            if organizer
-                {
-                    token: JWT::JsonWebToken.encode({organizer_id: organizer.id}),
-                    organizer: organizer
-                }
-                
-            end
+          organizer = Organizer.find_by_email(@email)&.authenticate(@password)
+
+          raise Exceptions::UnauthorizedOperation.message("Check Email or password") unless organizer
+
+
+          {
+            token: JWT::JsonWebToken.encode({organizer_id: organizer.id}),
+            organizer: organizer
+          }
         end
 
         private
