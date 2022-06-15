@@ -9,8 +9,8 @@ class Voter < ApplicationRecord
   validates :email, presence: true, unless: :phone_number
   validates :phone_number, presence: true, unless: :email
 
-  has_many :onboardings
-  has_many :polls, through: :onboardings
+  has_many :onboardings, dependent: :destroy
+  has_many :polls, through: :onboardings, dependent: :destroy
 
   def has_voted(poll_id)
     onboarding = self.onboardings.where(poll_id: poll_id)&.first
