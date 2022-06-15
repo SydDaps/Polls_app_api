@@ -1,7 +1,7 @@
 module Auth
   class AuthenticateVoter < BaseService
     def initialize(params)
-      @email = params[:email].downcase
+    @email = params[:email]&.downcase
       @password = params[:password]
       @phone_number = params[:phone_number]
     end

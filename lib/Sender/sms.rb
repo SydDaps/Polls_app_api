@@ -95,7 +95,7 @@ module Sender
     def build_message
       @message = <<~SMS.strip
       Vote in the #{@poll_title} which starts on #{@start_at} and ends on #{@end_at} via #{@voter_link}
-      with your phone_number #{@phone_number}
+      with your phone number #{@phone_number}
       SMS
 
       if @password_set
