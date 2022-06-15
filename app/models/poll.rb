@@ -17,7 +17,7 @@ class Poll < ApplicationRecord
   has_many :voters, dependent: :destroy
 
   has_many :onboardings, dependent: :destroy
-  has_many :voters, through: :onboardings, dependent: :destroy
+  # has_many :voters, through: :onboardings, dependent: :destroy
 
 
   validate :validate_publish_mediums
