@@ -11,7 +11,7 @@ module Auth
         voter = Voter.find_by(email: @email)&.authenticate(@password)
       elsif @phone_number
         parse_phone_number
-        voter = Voter.find_by(phone_number: @phone_number)
+        voter = Voter.find_by(phone_number: @phone_number)&.authenticate(@password)
       end
 
       raise Exceptions::NotUniqueRecord
