@@ -1,7 +1,7 @@
 module VoterService
   class Create < BaseService
     def initialize(params)
-      @email = params[:email].presence
+      @email = params[:email].downcase!
       @phone_number = params[:phone_number].presence
       @index_number = params[:index_number].presence
       @poll = params[:poll]

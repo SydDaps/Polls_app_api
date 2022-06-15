@@ -13,6 +13,10 @@ class Voter < ApplicationRecord
   has_many :onboardings, dependent: :destroy
   has_many :polls, through: :onboardings, dependent: :destroy
 
+  def type
+    "voter"
+  end
+
   def has_voted(poll_id)
     onboarding = self.onboardings.where(poll_id: poll_id)&.first
     onboarding&.has_voted

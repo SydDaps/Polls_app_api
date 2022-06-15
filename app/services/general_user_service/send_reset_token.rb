@@ -15,6 +15,8 @@ module GeneralUserService
         user = Agent.find_by(email: @email)
       when "organizer"
         user = Organizer.find_by(email: @email)
+      when "voter"
+        user = Voter.find_by(email: @email)
       end
 
       unless user
