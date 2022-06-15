@@ -4,7 +4,7 @@ class PublishJob < ApplicationJob
   def perform(params)
     @poll = params[:poll]
     @voters = params[:voters]
-    @voter_link = "https://polyticks.app/"
+    @voter_link = "https://www.polyticks.app/voter/login"
     @start_at = "#{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}"
     @end_at = "#{@poll.end_at.strftime("%B %d, %Y %I:%M%P")}"
     @subject = "#{@poll.title}"

@@ -7,7 +7,7 @@ class Agent < ApplicationRecord
 
   has_many :onboardings
   has_many :voters, through: :onboardings
-  has_many :polls, through: :onboardings
+
 
   def type
     "Agent"
