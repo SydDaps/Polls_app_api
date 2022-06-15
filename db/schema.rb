@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_14_224848) do
+ActiveRecord::Schema.define(version: 2022_06_15_123952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_224848) do
   end
 
   create_table "voters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "poll_id", null: false
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -108,7 +107,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_224848) do
     t.boolean "password_set", default: false
     t.index ["agent_id"], name: "index_voters_on_agent_id"
     t.index ["organizer_id"], name: "index_voters_on_organizer_id"
-    t.index ["poll_id"], name: "index_voters_on_poll_id"
   end
 
   create_table "votes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -136,7 +134,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_224848) do
   add_foreign_key "sections", "polls"
   add_foreign_key "voters", "agents"
   add_foreign_key "voters", "organizers"
-  add_foreign_key "voters", "polls"
   add_foreign_key "votes", "options"
   add_foreign_key "votes", "polls"
   add_foreign_key "votes", "sections"
