@@ -15,8 +15,8 @@ module GeneralUserService
         password_confirmation: @password_confirmation
       )
 
-      if @current_user.type == "voter"
-        @current_user.update!(password_set: true)
+      if @user.type == "voter"
+        @user.update!(password_set: true)
       end
 
       {message: "Password reset is successful."}
