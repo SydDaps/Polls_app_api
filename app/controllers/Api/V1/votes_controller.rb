@@ -1,13 +1,13 @@
 class Api::V1::VotesController < ApplicationController
 
     def create
-        
+
         VoteService::Create.call(params.merge({
             poll: current_poll,
             voter: @current_user
         }))
-        
-        ActionCable.server.broadcast("admin_#{@current_user.poll.organizer.id}",
+
+        ActionCable.server.broadcast("admin_#{current_poll.organizer.id}",
         {
             data: {
                 analytics: {
@@ -23,6 +23,6 @@ class Api::V1::VotesController < ApplicationController
             data: {
                 message: "voted Successfully"
             }
-        } 
+        }
     end
 end
