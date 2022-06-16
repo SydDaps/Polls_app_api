@@ -9,12 +9,12 @@ module VoteService
 
 
         def call
-           
+
 
             raise Exceptions::NotUniqueRecord.message("Poll starts at #{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}") if @poll.status == "Not Started"
             raise Exceptions::NotUniqueRecord.message("Poll ended") if @poll.status == "Ended"
 
-            raise Exceptions::NotUniqueRecord.message("Voted already") if @voter.voted           
+            raise Exceptions::NotUniqueRecord.message("Voted already") if @voter.has_voted(@poll_id)
 
             @votes.each do |data|
                 Vote.create(
@@ -24,8 +24,6 @@ module VoteService
                     voter_id: @voter.id
                 )
             end
-
-            @voter.update(voted: true)
         end
     end
 end
