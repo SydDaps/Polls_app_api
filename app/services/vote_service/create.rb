@@ -14,7 +14,7 @@ module VoteService
           raise Exceptions::NotUniqueRecord.message("Poll starts at #{@poll.start_at.strftime("%B %d, %Y %I:%M%P")}") if @poll.status == "Not Started"
           raise Exceptions::NotUniqueRecord.message("Poll ended") if @poll.status == "Ended"
 
-          raise Exceptions::NotUniqueRecord.message("Voted already") if @voter.has_voted(@poll_id)
+          raise Exceptions::NotUniqueRecord.message("Voted already") if @voter.has_voted(@poll.id)
 
           @votes.each do |data|
               Vote.create(
@@ -25,7 +25,7 @@ module VoteService
               )
           end
 
-          onboarding = @voter.onboardings.where(poll_id: poll_id)&.first
+          onboarding = @voter.onboardings.where(poll_id: @poll.id)&.first
           onboarding.update!(has_voted: true)
         end
     end
