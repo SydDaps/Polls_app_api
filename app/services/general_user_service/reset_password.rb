@@ -10,6 +10,7 @@ module GeneralUserService
       unless @password == @password_confirmation
         return {message: "Passwords do not match"}
       end
+
       @user.update!(
         password: @password,
         password_confirmation: @password_confirmation

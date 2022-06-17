@@ -47,7 +47,7 @@ module VoterService
       end
 
       @onboarding = @poll.onboardings.create(
-        voter: @voter,
+        voter_id: @voter.id,
         agent_id: @agent_id,
         organizer_id: @organizer_id
       )

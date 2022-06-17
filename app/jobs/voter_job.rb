@@ -18,7 +18,7 @@ class VoterJob < ApplicationJob
       ActionCable.server.broadcast("admin_#{params[:user].id}",
         {
             data: {
-              voters: response[:voter],
+              voters: response[:voters],
               analytics: {
                 message: "Poll results will be available on #{params[:poll].end_at.strftime("%B %d, %Y %I:%M%P")}",
                 analytics: PollSerializer.new( params[:poll]  ).serialize
