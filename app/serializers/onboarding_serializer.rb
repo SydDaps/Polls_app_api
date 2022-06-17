@@ -8,6 +8,9 @@ class OnboardingSerializer < BaseSerializer
       added_by = resource.agent.name
     end
 
-    data.merge(added_by: added_by)
+    data.merge(
+      added_by: added_by,
+      poll_id: resource.poll_id
+    )
   end
 end
