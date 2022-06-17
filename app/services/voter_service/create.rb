@@ -16,7 +16,7 @@ module VoterService
       {
         success: true,
         voters: OnboardingSerializer.new( @poll.reload.onboardings ).serialize,
-        voter: @voter
+        voter: OnboardingSerializer.new( @voter.onboardings.where(poll_id: @poll.id) ).serialize.first
       }
     end
 
@@ -102,3 +102,5 @@ end
 #       has_voted: !voter.votes.empty?
 #     )
 # end
+
+
