@@ -27,7 +27,7 @@ class PublishJob < ApplicationJob
 
           send_mail
 
-          update = true
+          update = true && !@voter.password_set
 
         when Poll::PublishingMedium::SMS
 
