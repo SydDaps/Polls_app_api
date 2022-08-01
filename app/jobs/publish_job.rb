@@ -33,7 +33,7 @@ class PublishJob < ApplicationJob
 
           next unless @voter.phone_number
 
-          update = send_sms
+          update = send_sms && !@voter.password_set
 
         end
 
