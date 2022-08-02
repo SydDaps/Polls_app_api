@@ -43,8 +43,7 @@ module VoterService
           message: "voter with credentials #{@fields.values.join(", ")} already added to poll"
         }
       elsif !@voter
-        @fields = @fields.merge(index_number: @index_number) if @index_number
-        @voter = Voter.create(@fields)
+        @voter = Voter.create(@fields.merge(index_number: @index_number))
       end
 
       @onboarding = @poll.onboardings.create(
