@@ -26,7 +26,6 @@ class PublishJob < ApplicationJob
           next unless @voter.email
 
           send_mail
-
           update = true && !@voter.password_set
 
         when Poll::PublishingMedium::SMS
@@ -76,7 +75,7 @@ class PublishJob < ApplicationJob
       temporary_password: @temporary_password,
       poll_title: @poll_title,
       organization_name: @organization_name,
-      sender_id: @poll.meta["sms_subject"],
+      sender_id: @poll.meta["sms_subject"] || 'polyticks',
       phone_number: "0#{@voter.phone_number[4..]}",
       password_set: @voter.password_set
     }
