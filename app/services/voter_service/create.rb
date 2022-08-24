@@ -28,11 +28,18 @@ module VoterService
         email: @email
       }
 
+
       @fields.each do |key, value|
         next unless value
 
         @voter = Voter.find_by(key => value)
-        break if @voter
+
+        if @voter
+          update_fields = {}
+          @fields.map{ |k, v| update_fields[k] = v unless v.nil? }
+          @voter.update(update_fields)
+          break
+        end
       end
 
       poll = @voter&.polls&.where(id: @poll.id)&.first
