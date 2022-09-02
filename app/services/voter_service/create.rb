@@ -36,8 +36,11 @@ module VoterService
 
         if @voter
           update_fields = {}
-          @fields.map{ |k, v| update_fields[k] = v unless v.nil? }
-          @voter.update(update_fields)
+          @fields.each do |k, v|
+            v = Voter.find_by(k => v)
+            next if v
+            voter.update(k => v)
+          end
           break
         end
       end
