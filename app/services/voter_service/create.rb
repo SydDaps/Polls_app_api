@@ -38,8 +38,8 @@ module VoterService
           update_fields = {}
           @fields.each do |k, v|
             voter = Voter.find_by(k => v)
-            next unless voter
-            voter.update(k => v)
+            next if voter
+            @voter.update(k => v)
           end
           break
         end
