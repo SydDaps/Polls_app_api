@@ -80,11 +80,11 @@ class PublishJob < ApplicationJob
       password_set: @voter.password_set
     }
 
-   response =  Sender::Sms.new(sms_params).send_hellio
+  #  response =  Sender::Sms.new(sms_params).send_hellio
 
-   unless response
+  #  unless response
     response =  Sender::Sms.new(sms_params).send_arkesel
-   end
+  #  end
 
    response
   end
