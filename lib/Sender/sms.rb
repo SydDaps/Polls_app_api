@@ -50,7 +50,7 @@ module Sender
         return false
       end
 
-      true
+      false
     end
 
     def send_arkesel
